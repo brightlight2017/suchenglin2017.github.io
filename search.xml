@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[vue学习填坑记之Vue.js devtools安装后无法启用]]></title>
     <url>%2F2017%2F11%2F15%2Fvue%E5%AD%A6%E4%B9%A0%E5%A1%AB%E5%9D%91%E8%AE%B0%E4%B9%8BVue-js-devtools%E5%AE%89%E8%A3%85%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[学习一门技术的时候，总会掉进各种各样的坑里。说实话，往外爬的过程是很考验人的耐力的。此时，如果有人打扰你，你应该告诉TA,社会主义救了你… 貌似跑题了，各位看官不要介意，本人思维太跳跃，下面步入正题。 今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？ 为了日后方便查阅，特把本人的解决方法总结如下。 修改插件manifest文件 找到Vue.js devtools的安装目录，可以在电脑中搜索插件的ID：nhdogjmejiglipccpnnnanhbledajbpd。我是win10系统，默认安装在C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Extensions\nhdogjmejiglipccpnnnanhbledajbpd。 点进去找到manifest.json文件并打开，persistent修改为true。 上述修改后没有反应？机智的我继续往外爬。 插件使用环境 通过查阅文档，发现有以下两种情况。 第一，页面使用的vue如果是生产环境，即压缩版本的话，devtools的选项是默认关闭的，所以可以使用非压缩版的。 第二，页面若是使用file://形式打开的话，需要到chrome扩展程序处勾上“允许访问文件网址”。或者使用服务器查看。 经过一番折腾，V终于又亮了，哈哈，不错吧。]]></content>
+    <content type="text"><![CDATA[学习一门技术的时候，总会掉进各种各样的坑里。说实话，往外爬的过程是很考验人的耐力的。此时，如果有人打扰你，你应该告诉TA,社会主义救了你… 貌似跑题了，各位看官不要介意，本人思维太跳跃，下面步入正题。 今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？ 为了日后方便查阅，特把本人的解决方法总结如下。 修改插件manifest文件找到Vue.js devtools的安装目录，可以在电脑中搜索插件的ID：nhdogjmejiglipccpnnnanhbledajbpd。我是win10系统，默认安装在C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Extensions\nhdogjmejiglipccpnnnanhbledajbpd。 点进去找到manifest.json文件并打开，persistent修改为true。 上述修改后没有反应？机智的我继续往外爬。 插件使用环境通过查阅文档，发现有以下两种情况。 第一，页面使用的vue如果是生产环境，即压缩版本的话，devtools的选项是默认关闭的，所以可以使用非压缩版的。 第二，页面若是使用file://形式打开的话，需要到chrome扩展程序处勾上“允许访问文件网址”。或者使用服务器查看。 经过一番折腾，V终于又亮了，哈哈，不错吧。]]></content>
       <categories>
         <category>vue</category>
       </categories>
