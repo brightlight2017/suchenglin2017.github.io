@@ -93,7 +93,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/images/manifest%E4%BF%AE%E6%94%B9.png">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/images/vue%E8%B0%B7%E6%AD%8C%E6%8F%92%E4%BB%B6%E8%AE%BE%E7%BD%AE.png">
-<meta property="og:updated_time" content="2017-11-15T09:46:25.207Z">
+<meta property="og:updated_time" content="2017-11-15T09:53:19.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue学习填坑记之Vue.js devtools安装后无法启用">
 <meta name="twitter:description" content="学习一门技术的时候，总会掉进各种各样的坑里。说实话，往外爬的过程是很考验人的耐力的。此时，如果有人打扰你，你应该告诉TA,社会主义救了你… 貌似跑题了，各位看官不要介意，本人思维太跳跃，下面步入正题。 今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？ 为了日后方便查阅，特把本人的解决方法总结如下。">
@@ -397,7 +397,7 @@
 <p>今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？</p>
 <p>为了日后方便查阅，特把本人的解决方法总结如下。</p>
 <h4 id="修改插件manifest文件"><a href="#修改插件manifest文件" class="headerlink" title="修改插件manifest文件"></a>修改插件manifest文件</h4><p>找到Vue.js devtools的安装目录，可以在电脑中搜索插件的ID：nhdogjmejiglipccpnnnanhbledajbpd。我是win10系统，默认安装在C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Extensions\nhdogjmejiglipccpnnnanhbledajbpd。</p>
-<p>点进去找到manifest.json文件并打开，persistent修改为true。<br>    <img src="http://ozg6hqkcn.bkt.clouddn.com/images/manifest%E4%BF%AE%E6%94%B9.png" alt="manifest"><br>　　上述修改后没有反应？机智的我继续往外爬。</p>
+<p>点进去找到manifest.json文件并打开，persistent修改为true。<br>    <img src="http://ozg6hqkcn.bkt.clouddn.com/images/manifest%E4%BF%AE%E6%94%B9.png" alt="manifest"><br>上述修改后没有反应？机智的我继续往外爬。</p>
 <h4 id="插件使用环境"><a href="#插件使用环境" class="headerlink" title="插件使用环境"></a>插件使用环境</h4><p>通过查阅文档，发现有以下两种情况。</p>
 <p>第一，页面使用的vue如果是生产环境，即压缩版本的话，devtools的选项是默认关闭的，所以可以使用非压缩版的。</p>
 <p>第二，页面若是使用file://形式打开的话，需要到chrome扩展程序处勾上“允许访问文件网址”。或者使用服务器查看。<br>    <img src="http://ozg6hqkcn.bkt.clouddn.com/images/vue%E8%B0%B7%E6%AD%8C%E6%8F%92%E4%BB%B6%E8%AE%BE%E7%BD%AE.png" alt="plugin"></p>
