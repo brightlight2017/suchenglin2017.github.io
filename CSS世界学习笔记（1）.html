@@ -91,7 +91,7 @@
 <meta property="og:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。 1.  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 hre">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/%E5%BC%AF%E8%A7%92%E5%89%91%E7%BE%9A.jpg">
-<meta property="og:updated_time" content="2018-04-14T15:14:09.603Z">
+<meta property="og:updated_time" content="2018-04-14T15:26:54.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS世界学习笔记（1）">
 <meta name="twitter:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。 1.  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 hre">
@@ -353,7 +353,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,825
+                  3,821
                 </span>
               
 
@@ -441,18 +441,21 @@ cursor: default;
 </ul>
 <h4 id="6-拉伸"><a href="#6-拉伸" class="headerlink" title="6.  拉伸"></a>6.  拉伸</h4><ul>
 <li><strong>cursor:col-resize</strong>：它适用于移动垂直线条，如垂直参考线。如果要通过移动改变左右分栏的宽度，建议使用 <em>cursor:ew-resize</em>。</li>
-<li><strong>cursor:row-resize</strong>：它适用于移动水平线条，如水平参考线。如果要通过移动改变上下分栏的高度，建议使用 <em>cursor:ns-resize</em>。<br>（1）单向拉伸： 总共 8 个方位 8 个不同的关键字属性值。<br>• cursor:n-resize<br>• cursor:e-resize<br>• cursor:s-resize<br>• cursor:w-resize<br>• cursor:ne-resize<br>• cursor:nw-resize<br>• cursor:se-resize<br>• cursor:sw-resize<br>（2）双向拉伸： 总共 4 个对立方位组合，名称和近似形状如下。<br>• cursor:ew-resize<br>• cursor:ns-resize<br>• cursor:nesw-resize<br>• cursor:nwse-resize<br>双向拉伸的 4 个属性值从 IE10 才开始支持。考虑到单向拉伸往往会自动以双向的形式呈现，因此，实际开发的时候，我们大可这么处理，拿右下角拉伸示意：<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.resize</span> &#123;</span><br><span class="line"><span class="attribute">cursor</span>: se-resize;</span><br><span class="line"><span class="attribute">cursor</span>: nwse-resize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
+<li><strong>cursor:row-resize</strong>：它适用于移动水平线条，如水平参考线。如果要通过移动改变上下分栏的高度，建议使用 <em>cursor:ns-resize</em>。<br>（1）单向拉伸： 总共 8 个方位 8 个不同的关键字属性值。<br>• cursor:n-resize<br>• cursor:e-resize<br>• cursor:s-resize<br>• cursor:w-resize<br>• cursor:ne-resize<br>• cursor:nw-resize<br>• cursor:se-resize<br>• cursor:sw-resize<br>（2）双向拉伸： 总共 4 个对立方位组合，名称和近似形状如下。<br>• cursor:ew-resize<br>• cursor:ns-resize<br>• cursor:nesw-resize<br>• cursor:nwse-resize<br>双向拉伸的 4 个属性值从 IE10 才开始支持。考虑到单向拉伸往往会自动以双向的形式呈现，因此，实际开发的时候，我们大可这么处理，拿右下角拉伸示意：<br><code>.resize {
+cursor: se-resize;
+cursor: nwse-resize;
+}</code><br>这样，即使有些环境单向拉伸就只有一个方向的箭头，有后面的 <em>cursor:nwse-resize</em>罩着，也不会出现什么明显的样式问题。</li>
 </ul>
-<p>这样，即使有些环境单向拉伸就只有一个方向的箭头，有后面的 <em>cursor:nwse-resize</em>罩着，也不会出现什么明显的样式问题。</p>
 <h4 id="7-缩放"><a href="#7-缩放" class="headerlink" title="7.  缩放"></a>7.  缩放</h4><ul>
 <li><strong>cursor:zoom-in</strong>：光标形似放大镜 。</li>
-<li><strong>cursor:zoom-out</strong>：光标形似缩小镜 。<br>这是 CSS3 新支持的两个光标类型。</li>
+<li><strong>cursor:zoom-out</strong>：光标形似缩小镜 。</li>
 </ul>
+<p>这是 CSS3 新支持的两个光标类型。</p>
 <h4 id="8-抓取"><a href="#8-抓取" class="headerlink" title="8.  抓取"></a>8.  抓取</h4><ul>
 <li><strong>cursor:grab</strong>：光标是一个五指张开的手 。</li>
-<li><strong>cursor:grabbing</strong>：光标是一个五指收起的手 。<br>这也是 CSS3 新支持的两个光标类型。<br>或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。</li>
+<li><strong>cursor:grabbing</strong>：光标是一个五指收起的手 。</li>
 </ul>
+<p>这也是 CSS3 新支持的两个光标类型。<br>或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。</p>
 <p>最后，再总结一下琳琅满目的 cursor 属性值的兼容性情况（数据源自 caniuse.com）。</p>
 <ul>
 <li>可以放心使用，无须担心兼容性问题的 cursor 属性值有 auto、 crosshair、default、 move、 text、 wait、 help、 n-resize、 e-resize、 s-resize、w-resize、 ne-resize、 nw-resize、 se-resize、 sw-resize、 pointer、progress 、 not-allowed 、 no-drop 、 vertical-text 、 all-scroll 、col-resize 和 row-resize。</li>
