@@ -91,7 +91,7 @@
 <meta property="og:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 href 属">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/%E5%BC%AF%E8%A7%92%E5%89%91%E7%BE%9A.jpg">
-<meta property="og:updated_time" content="2018-04-14T14:51:24.481Z">
+<meta property="og:updated_time" content="2018-04-14T15:01:28.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS世界学习笔记（1）">
 <meta name="twitter:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 href 属">
@@ -414,11 +414,13 @@ cursor: none;
 }</code><br><em>:root</em> 是 IE9 及以上版本浏览器才认识的选择器，因此可以把 IE8 和其他浏览器区分开。</li>
 </ul>
 <ol>
-<li>链接和状态</li>
-</ol>
-<ul>
+<li>链接和状态<ul>
 <li><strong>cursor:pointer</strong>：光标表现为一只伸出食指的手。IE 浏览器还支持<em>cursor:hand</em>，表现和 <em>cursor:pointer</em> 是一样的，但其他浏览器并不识别，因此没有任何使用 <em>cursor:hand</em> 的理由。我以前其实产生过疑问：为何“手形”不统一是 <em>cursor:hand</em>？这样通俗易懂又好记。后来算是明白了， hand 这个词太概括和笼统，随着 CSS 发展，一定会出现其他与“手”相关的形状，例如，抓取相关的 grab和 grabbing 等。</li>
 <li><strong>cursor:help</strong>：帮助，通常是光标头上带了个问号。它用在帮助链接或者包含提示信息的问号小图标上。目前，类似场景几乎都使用 <em>cursor:pointer</em>手形，实际上，可以试试使用 <em>cursor:help</em>，让我们的交互细节和视觉呈现更加细腻，让用户感受到我们在产品上的用心。</li>
+</ul>
+</li>
+</ol>
+<ul>
 <li><strong>cursor:progress</strong>：表示进行中的意思。从语义上讲，其适合 loading 处理。<br>例如，我们点击一个按钮发送请求，请求发送出去、返回数据还没接收到的这段时 间 其 实 就 是 一 个 progress 状 态 。按道理讲，可以让按钮的光标变成<em>cursor:progress</em>，例如， Windows 7 系统下的 会有一个不停旋转的圈圈。但<br>是我个人更建议对按钮本身的样子进行改变，例如，加个菊花加载效果，让用户感知到目前正在处理中，因为用户的交互操作不一定通过鼠标，也有可能通过键盘，如果单纯使用 <em>cursor:progress</em>，通过键盘操作的用户就无法感知到状态的变化，用户体验其实是不好的。<br>但是，有一个场景却非常适合使用 <em>cursor:progress</em>，那就是页面加载的时候。如今进行 Web 开发，没有 JavaScript 几乎寸步难行，而 JavaScript 加载完毕是需要一定时间的，网络不好的时候，这个加载时间延迟可能会非常明显，于是用户就会遇到明明界面已经呈现了，但是点击“展开更多”按钮却没有任何反应，原因就是 JavaScript还没有完全加载完毕。此时就非常适合<em>cursor:progress</em> 出马了，我们默认在&lt;body&gt;标签上设置：<br><code>body {
 cursor:progress
 }</code><br>然后，当 JavaScript 初始化完毕的时候，执行类似下面的 JavaScript 代码：<br><code>document.body.style.cursor = &#39;auto&#39;;</code><br>于是，刚才的加载场景就变成了这样： Web 页面界面已经呈现，用户想去点击“展开更多”按钮，结果发现此时页面的光标是 <em>cursor:progress</em> 的转圈圈状态，此时，至少大部分用户会意识到我们的网页还没有完全加载完毕，需要再耐心等待一会儿，减少了点击“展开更多”按钮却没有任何反应的不安和焦虑感，对用户更加友好了。</li>
@@ -426,8 +428,7 @@ cursor:progress
 <li><strong>cursor:context-menu</strong>： <em>cursor:context-menu</em> 兼容性比较复杂， Mac OS X 和Linux 系统下的 Chrome 和 Firefox 浏览器是支持的，但是 Windows 系统下的 Chrome和 Firefox 浏览器却不支持。<br>在 Windows 7 系统下，表现为箭头光标右下方挂了个汽油桶 。<br><em>context-menu</em> 的字面意思是“上下文菜单”，就是右键点击我们的桌面或者网页显示的那个菜单列表。如果套用这个语义， <em>cursor:contextmenu</em> 适用的场景是自定义“上下文菜单”的时候，例如，网盘列表或者邮箱列表，我们可以直接右键删除。此时，如果我们把光标设置为 <em>cursor:context-menu</em>，用户就更容易意识到这里有自定义的、快捷方便的上下文菜单功能，而不是傻傻指望用户自己发现。</li>
 </ul>
 <ol>
-<li>选择</li>
-</ol>
+<li><p>选择</p>
 <ul>
 <li><strong>cursor:text</strong>：潜台词是文字可被选中。默认文本字符或者可输入的单复选框的光标就表现成这样，因为文字可以被选中；反过来，如果文字是不能被选中的，光标就不应该是<em>cursor:text</em>。<br>举个例子，单行输入框，默认光标表现为<em>cursor:text</em>，但是我们一旦让其<em>disabled</em>禁用，如&lt;input disabled&gt;，则浏览器自动会把光标改变成 <em>cursor:default</em>。<br>同样地，如果我们使用 CSS 让页面上的文本字符不能被选中，则光标也要跟着一起发生变化， CSS 代码如下：<br><code>article {
 -webkit-user-select: none;
@@ -440,9 +441,8 @@ cursor: default;
 <li><strong>cursor:crosshair</strong>：十字光标。它通常用在像素级的框选或点选场合，比方说自定义的取色工具。</li>
 <li><strong>cursor:cell</strong>： <em>cursor:cell</em> 中的 cell 和 <em>display:table-cell</em> 中的 cell 其实可以看成是同一个东西，也就是单元格。换句话说， <em>cursor:cell</em> 用来表示单元格是可以框选的。<br>原生的 IE8 浏览器并不支持 <em>cursor:cell</em>，若使用， IE8 需要自定义。</li>
 </ul>
-<ol>
-<li>拖曳</li>
-</ol>
+</li>
+<li><p>拖曳</p>
 <ul>
 <li><strong>cursor:move</strong>：光标变成 <em>cursor:move</em>，往往就意味着当前元素是可以移动的，例如，头像剪裁的时候可能需要拖动剪裁框或背景图，就可以设置<em>cursor:move</em>，或者有些弹框组件按住标题栏是可以拖曳的，我们就可以在标题栏上<br>设置 <em>cursor:move</em>，让用户很直观地知道当前弹框是可拖曳的，降低用户的学习成本，还是很有使用价值的。</li>
 <li><strong>cursor:copy</strong>：光标变成 <em>cursor:copy</em>，往往就意味着当前元素是可以被复制的。原生的 IE8 浏览器并不支持，若使用， IE8 需要自定义。</li>
@@ -466,9 +466,11 @@ cursor: se-resize;
 cursor: nwse-resize;
 }</code><br>这样，即使有些环境单向拉伸就只有一个方向的箭头，有后面的 <em>cursor:nwse-resize</em>罩着，也不会出现什么明显的样式问题。</li>
 </ul>
-<ol>
-<li>缩放<br>• <strong>cursor:zoom-in</strong>：光标形似放大镜 。<br>• <strong>cursor:zoom-out</strong>：光标形似缩小镜 。<br>这是 CSS3 新支持的两个光标类型。</li>
-<li>抓取<br>• <strong>cursor:grab</strong>：光标是一个五指张开的手 。<br>• <strong>cursor:grabbing</strong>：光标是一个五指收起的手 。<br>这也是 CSS3 新支持的两个光标类型。<br>或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。</li>
+</li>
+<li><p>缩放<br>• <strong>cursor:zoom-in</strong>：光标形似放大镜 。<br>• <strong>cursor:zoom-out</strong>：光标形似缩小镜 。<br>这是 CSS3 新支持的两个光标类型。</p>
+</li>
+<li><p>抓取<br>• <strong>cursor:grab</strong>：光标是一个五指张开的手 。<br>• <strong>cursor:grabbing</strong>：光标是一个五指收起的手 。<br>这也是 CSS3 新支持的两个光标类型。<br>或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。</p>
+</li>
 </ol>
 <p>最后，再总结一下琳琅满目的 cursor 属性值的兼容性情况（数据源自 caniuse.com）。</p>
 <ul>
