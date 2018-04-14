@@ -91,7 +91,7 @@
 <meta property="og:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。 1.  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 hre">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/%E5%BC%AF%E8%A7%92%E5%89%91%E7%BE%9A.jpg">
-<meta property="og:updated_time" content="2018-04-14T15:26:54.897Z">
+<meta property="og:updated_time" content="2018-04-14T15:29:59.969Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS世界学习笔记（1）">
 <meta name="twitter:description" content="最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。  以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。 1.  常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 hre">
@@ -463,7 +463,7 @@ cursor: nwse-resize;
 <li>从 Edge12 才开始支持的属性值有 zoom-in 和 zoon-out。</li>
 <li>从 Edge14 才开始支持的属性值有 grab 和 grabbing（源自 MDN 文档）。</li>
 </ul>
-<p>另外，从 IE6 开始，我们就可以自定义网页中的光标样式，因此，对于 cursor 属性，兼容性都不是问题。例如， IE8 不支持上面提到的 <em>cursor:none</em>，就是通过自定义手段实现兼容的：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cur-none</span> &#123;</span><br><span class="line"><span class="attribute">cursor</span>: <span class="built_in">url</span>(transparent.cur);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外，从 IE6 开始，我们就可以自定义网页中的光标样式，因此，对于 cursor 属性，兼容性都不是问题。例如， IE8 不支持上面提到的 <em>cursor:none</em>，就是通过自定义手段实现兼容的：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cur-none</span> &#123;</span><br><span class="line">	<span class="attribute">cursor</span>: <span class="built_in">url</span>(transparent.cur);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>对于 Chrome 等浏览器，可以直接使用 PNG 图片作为光标，但是 IE 浏览器不行。 IE 仅支持专门的.cur 格式的光标文件，需要使用工具进行格式转换，至于什么工具，大家可以自行搜索一下，还是有很多的。<br>解决兼容性问题只是自定义光标的作用之一，自定义光标最大的作用其实是根据业务需要对光标进行更为彻底的自定义，最常见的就是点击图片左右半区，分别实现上一张、下一张图片切换预览的效果。</p>
 <p>今天就先到这里吧，未完待续。</p>
 
