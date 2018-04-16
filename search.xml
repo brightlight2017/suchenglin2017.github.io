@@ -1,285 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-    
-    <entry>
-      <title><![CDATA[CSS世界学习笔记（2）]]></title>
-      <url>/CSS%E4%B8%96%E7%95%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89.html</url>
-      <content type="html"><![CDATA[<p>今天继续《CSS世界》这本书的学习之旅，这次主要是关于<em>:first-letter</em>的。</p>
-<p><img src="http://ozg6hqkcn.bkt.clouddn.com/zhengzhou.jpg" alt="enter image description here"></p>
-<p>之前 <em>first-letter</em> 叫伪类选择器，写法是前面加一个冒号，如<em>:first-letter</em>。那时候的语义要更直白一些，选择第一个字符，然后设置一些样式。后来，伪类和伪元素被划分得更加明确和规范了， <em>::after、 ::before、::backdrop、 ::first-letter、 ::first-line、 ::selection</em> 等是伪元素， <em>:active、:focus、 :checked</em> 等被称为伪类，这就导致<em>::first-letter</em> 的语义发生了一些变化—首字符作为元素的假想子元素。</p>
-<p>“假想子元素”，听上去有些故弄玄虚的感觉，实际并不是，以这种更加直白通俗的方式解析才更容易理解下面的很多现象。</p>
-<h4 id="1．-first-letter-伪元素生效的前提"><a href="#1．-first-letter-伪元素生效的前提" class="headerlink" title="1． ::first-letter 伪元素生效的前提"></a>1． ::first-letter 伪元素生效的前提</h4><p>要想让<em>::first-letter(:first-letter)</em>伪元素生效，是需要满足一定条件的，而且条件乍一看还挺苛刻。<br>首先，元素的 <em>display</em> 计算值必须是 <em>block、 inline-block、 list-item、 tablecell </em>或者 <em>table-caption</em>，其他所有 <em>display</em> 计算值都没有用，包括 <code>display:table</code>和 <code>display:flex</code> 等。<br>此外，不是所有的字符都能单独作为<em>::first-letter</em> 伪元素存在的。什么意思呢？我们看一个简单的例子， CSS 和 HTML 代码如下：<br><code>p:first-letter { color: silver; }</code><br><code>&lt;p&gt;？？？？？？？ &lt;/p&gt;</code><br>按照我们的认知，第一个问号应该是银色的，但实际上，全部都是默认的黑色。<br>为什么呢？这是因为常见的标点符号 、各类括号和引号在<em>::first-letter </em>伪元素眼中全部都是“辅助类”字符，有点儿买东西送赠品的感觉，但是赠品本身却不能购买，这里的问号“？”就属于赠品。有些不理解？看一个例子就知道了。假如我们在上面的 HTML 中一堆问号后面写上一些内容字符，比方说中文“辅助”二字，结果效果如图所示。<br>![enter image description here]<br>(<a href="http://ozg6hqkcn.bkt.clouddn.com/pic2.jpg" target="_blank" rel="external">http://ozg6hqkcn.bkt.clouddn.com/pic2.jpg</a>)<br>“？？？？？？？辅”全部都成银色了！原因很简单，“辅助”二字才是::first-letter 伪元素真正要收入囊中作为“伪元素”的字符，但是现在前面出现了一堆它不感兴趣的问号，怎么办呢？那就当作赠品一并收了，于是，一大波字符全都成银色了。如果全是问号，因为没有主商品，自然也就无法获得赠品，所以<em>::first-letter</em> 没有选择任何字符，问号全部默认是黑色。<br>有人可能会有疑问：那到底哪些字符属于“赠品”，哪些属于“商品”呢？总结下来就是，“赠品字符”包括·@#%&amp;*()（） []【】 {}:： ““”;； ‘‘’》《,， .。？ ?!！ …<em>、 /\。<br>正常情况下可以直接作为伪元素的字符就是数字、英文字母、中文、 $、一些运算符，以及非常容易被忽视的空格等。这里的“空格”有必要再加粗强调一下，因为它的确是很容易被忽视的一个字符。<br>最后说明一点，字符前面不能有图片或者 </em>inline-block/inline-table<em> 之类的元素存在。<br>例如，下面的 HTML 和 CSS 代码：<br><code>p:first-letter { color: silver; }</code><br><code>&lt;p&gt;&lt;i style=&quot;display:inline-block&quot;&gt;&lt;/i&gt;银色&lt;/p&gt;</code><br>结果“银色”两字的颜色还是黑色。这就是因为多了一个 </em>display<em> 值是
-</em>inline-block<em> 尺寸为 0 的<code>&lt;i&gt;</code>元素，导致</em>::first-letter<em> 伪元素直接不起作用了。<br>一般来讲， </em>::before<em> 伪元素和普通元素之间没有多少瓜葛，例如</em>:first-child<em>和</em>:empty<em> 之类的选择器都不受影响，但是，由于</em>::first-letter<em> 和</em>::before<em> 一样也是伪元素，“暗生情愫”也是难免的。翻译成 CSS 世界的术语就是： </em>::before<em> 伪元素也参与</em>::first-letter* 伪元素。例如，如下 CSS 和 HTML 代码：<br><code>p:before {
-content: &#39;新闻： &#39;;
-}
-p:first-letter {
-color: silver;
-}</code><br><code>&lt;p&gt;这是新闻的标题……&lt;/p&gt;</code><br>结果“新”变成了银色。包括 IE8 在内的浏览器都是这样的表现。</p>
-<p>####2． ::first-letter 伪元素可以生效的 CSS 属性<br>如果字符被选作了<em>::first-letter</em> 伪元素，并不是像<em>::before</em> 伪元素那样，几乎所有 CSS 都有效，只是一部分有效。<br>• 所有字体相关属性： <em>font、 font-style 、 font-variant 、 font-weight 、font-size、 line-height</em> 和 <em>font-family</em>。<br>• 所有背景相关属性： <em>background-color、 background-image、 backgroundposition、 background-repeat、 background-size</em> 和 <em>background-attachment</em>。<br>• 所有 <em>margin</em> 相关属性： <em>margin、 margin-top、 margin-right、 margin-bottom</em>和 <em>margin-left</em>。<br>• 所有 <em>padding</em> 相关属性： <em>padding、 padding-top、 padding-right、 paddingbottom</em> 和 <em>padding-left</em>。<br>• 所有 <em>border</em> 相关属性：缩写的 <em>border、 border-style、 border-color、border-width</em> 和普通书写的属性。<br>• <em>color</em> 属性。<br>• <em>text-decoration、 text-transform、 letter-spacing、 word-spacing</em>（合适情境下）、 <em>line-height、 float</em> 和 <em>vertical-align</em>（只有当 <em>float</em> 为 <em>none</em>的时候）等属性。<br>因此，如果妄图使用 <code>visibility:hidden</code> 或者 <code>display:none</code> 隐藏<em>::firstletter</em> 伪元素，还是省省吧。</p>
-<h4 id="3．-first-letter-伪元素的一些有意思的特点"><a href="#3．-first-letter-伪元素的一些有意思的特点" class="headerlink" title="3． ::first-letter 伪元素的一些有意思的特点"></a>3． ::first-letter 伪元素的一些有意思的特点</h4><p>（1） 支持部分 <em>display</em> 属性值标签嵌套。 <em>::first-letter</em> 伪元素获取可以跨标签，也就是不仅能选择匿名内联盒子，还能透过层层标签进行选择，但是也有一些限制，并不是所有标签嵌套都是有用的。<br><em>display</em> 值如果是 <em>inline、 block、 table、 table-row、 table-caption、 tablecell、 list-item</em> 都是可以的，但是不能是 <em>inline-block</em> 和 <em>inlinetable</em>，否则<em>::first-letter</em> 伪元素会直接无效；而 <code>display:flex</code>则改变了规则，直接选择了下一行的字符内容。<br>例如：<br><code>p:first-letter {
-color: silver;
-}
-p &gt; span {
-display: table;
-}</code><br><code>&lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符看看会不会变色？ &lt;/p&gt;</code><br>“第”字变成银色了。<br>这种嵌套关系支持多层嵌套，即连续套 4～5 层 <em>inline</em>水平的标签和没有任何标签嵌套的效果是一样的。<br>（2） 颜色等权重总是多了一层。 这是非常容易犯的一个错误，也是 CSS 世界十大不易理解问题之一。例如：<br><code>p:first-letter {
-color: red;
-}
-p &gt; span {
-color: blue!important;
-}</code><br><code>&lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符看看会不会变红？ &lt;/p&gt;</code><br>请问“第”这个字符的颜色是什么？<br>基本上，超过 95%的前端人员会认为是 blue，因为大家都是从 CSS 选择器权重的角度去考虑的。这个答案本身没问题，但是却忽略了很重要的一点， <em>::first-letter</em> 伪元素其实是作为子元素存在的，或者说应当看出是子元素，于是就很好理解了。对于类似 <em>color</em> 这样的继承属性 ，子元素的 CSS设置一定比父元素的级别要高，哪怕父级使用 了重量级的<code>!important</code>，因为子元素会先继承，然后再应用自身设置。<br>因此，上面 CSS 和 HTML 代码的最终结果是，第一个字符“第”字的颜色是 red，红色！<br>这就是<em>::first-letter</em> 伪元素的另外一个重要特性—颜色等权重总是多了一层。</p>
-<p>####4． ::first-letter 实际应用举例<br>电商产品经常会有价格，价格前面一般都有一个<code>¥</code>符号，这个符号字体往往会比较特殊，字号也比较大，同时和文字的数值有几像素的距离。要实现这样的效果，通常的做法是在¥符号外面包一个 <code>span</code> 标签，命名一个类名，然后通过 CSS 控制。实际上，还有更简单巧妙的方法，就是使用本文介绍的<em>::first-letter</em> 伪元素。<br>CSS 示例代码如下：<br><code>.price:first-letter {
-margin-right: 5px;
-font-size: xx-large;
-vertical-align: -2px;
-}</code><br>于是，我们的 HTML 就可以很简洁：<br><code>&lt;p&gt;¥399&lt;/p&gt;</code><br>![enter image description here]<br>(<a href="http://ozg6hqkcn.bkt.clouddn.com/pic1.jpg" target="_blank" rel="external">http://ozg6hqkcn.bkt.clouddn.com/pic1.jpg</a>)<br><code>¥</code>并不是“赠品字符”，因此这里可行。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 学习笔记 </category>
-            
-        </categories>
-        
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[CSS世界学习笔记（1）]]></title>
-      <url>/CSS%E4%B8%96%E7%95%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89.html</url>
-      <content type="html"><![CDATA[<p>最近在拜读<a href="http://www.zhangxinxu.com/" target="_blank" rel="external">张鑫旭</a>大大的新书<a href="http://www.cssworld.cn/" target="_blank" rel="external">《CSS世界》</a>，读后加深了自己对CSS的理解，也推荐大家购买看看。</p>
-<p><img src="http://ozg6hqkcn.bkt.clouddn.com/%E5%BC%AF%E8%A7%92%E5%89%91%E7%BE%9A.jpg" alt="enter image description here"></p>
-<p>以下是拜读后的笔记–光标属性cursor。</p>
-<p><em>cursor</em> 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。</p>
-<h4 id="1-常规"><a href="#1-常规" class="headerlink" title="1.  常规"></a>1.  常规</h4><ul>
-<li><strong>cursor:auto</strong>： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 <em>cursor:text</em>，带 href 属性的链接表现为<em>cursor:pointer</em>，而原生的&lt;button&gt;表现为 <em>cursor:default</em> 等。</li>
-<li><strong>cursor:default</strong>：系统默认光标形状。虽然有“默认”之意，但却不是 cursor 属性的默认值，需要注意。如何严格按照操作系统以及浏览器默认的光标行为呢？目前 Web 页面中所有按钮都使用 cursor:pointer 手形的做法并不标准，链接才是手形，按钮应该都是默认形，通过 hover 时候的状态变化让用户知道这里是可以点击、可以有交互的。但是如下一些情况的存在，导致业内都习惯把所有可点击、可交互的元素的光标全部变成手形。<ul>
-<li>忘记设置 hover 样式或者不方便设置，例如，图标 hover 变色效果，需要多份不同色背景图，尤其现在都喜欢使用工具合并，默认生成的 CSS 是没有 hover 样式的，需要自己特殊处理。此时，如果这个图标按钮采用默认 default 光标，容易让用户觉得这里是不可点击的，但是使用 pointer 手形光标，由于光标变化本身就是一种 hover 状态变化，可以让用户意识到这个元素是“特别的”。同样地，反过来，模拟按钮的禁用效果的时候，也要记得把 <em>cursor:pointer</em> 还原成<em>cursor:default</em>，很多人都不注意这个细节。</li>
-<li>由于浏览器原生的按钮样式兼容方面难以完美，尤其在 IE 盛行的年代，黑框、宽高不一致等一系列样式问题层不出穷，于是大家就使用&lt;a&gt;标签来模拟按钮，类似这样：<br>&lt;a href=”javascript:” class=”button” role=”button”&gt;按钮&lt;/a&gt;<br>而浏览器中默认带 href 属性的&lt;a&gt;标签的光标都是手形，而且这个手形效果也蛮好，没有必要再额外重置为 default 默认形。于是，久而久之，大家就约定俗成，所有链接和按钮都使用手形。以至于发展到现在，使用原生的&lt;button&gt;按钮甚至下拉框的时候，都要设置一个 <em>cursor:pointer</em>。这种奇怪的发展史真是比小说还精彩。</li>
-</ul>
-</li>
-<li><strong>cursor:none</strong>：这个声明非常有意思，可以让光标隐藏不见。什么情况下我们不需要光标呢？看视频的时候，尤其全屏看视频的时候。此时鼠标一直在界面上晃着，是很碍眼、很难受的。一般可以这么处理：如果鼠标静止 3 秒不动，就设置页面或视频元素 <em>cursor:none</em> 隐藏光标，如果有 mousemove 行为，再显示即可！<br>然而这样做有一个小问题，就是 IE8 浏览器并不支持 <em>cursor:none</em> 声明，从 IE9 浏览器才开始支持这个属性，怎么办呢？很简单， IE8 浏览器使用自定义的透明光标就<br>可以了。弄一张纯透明的 PNG 图片，然后制作成 cur 格式，就可以实现全部浏览器下的光标隐藏效果了。<br>CSS 代码如下：<br><code>.cur-none {
-cursor: url(transparent.cur), auto;
-}
-:root .cur-none {
-cursor: none;
-}</code><br><em>:root</em> 是 IE9 及以上版本浏览器才认识的选择器，因此可以把 IE8 和其他浏览器区分开。</li>
-</ul>
-<h4 id="2-链接和状态"><a href="#2-链接和状态" class="headerlink" title="2.  链接和状态"></a>2.  链接和状态</h4><ul>
-<li><strong>cursor:pointer</strong>：光标表现为一只伸出食指的手。IE 浏览器还支持<em>cursor:hand</em>，表现和 <em>cursor:pointer</em> 是一样的，但其他浏览器并不识别，因此没有任何使用 <em>cursor:hand</em> 的理由。我以前其实产生过疑问：为何“手形”不统一是 <em>cursor:hand</em>？这样通俗易懂又好记。后来算是明白了， hand 这个词太概括和笼统，随着 CSS 发展，一定会出现其他与“手”相关的形状，例如，抓取相关的 grab和 grabbing 等。</li>
-<li><strong>cursor:help</strong>：帮助，通常是光标头上带了个问号。它用在帮助链接或者包含提示信息的问号小图标上。目前，类似场景几乎都使用 <em>cursor:pointer</em>手形，实际上，可以试试使用 <em>cursor:help</em>，让我们的交互细节和视觉呈现更加细腻，让用户感受到我们在产品上的用心。</li>
-<li><strong>cursor:progress</strong>：表示进行中的意思。从语义上讲，其适合 loading 处理。<br>例如，我们点击一个按钮发送请求，请求发送出去、返回数据还没接收到的这段时 间 其 实 就 是 一 个 progress 状 态 。按道理讲，可以让按钮的光标变成<em>cursor:progress</em>，例如， Windows 7 系统下的 会有一个不停旋转的圈圈。但<br>是我个人更建议对按钮本身的样子进行改变，例如，加个菊花加载效果，让用户感知到目前正在处理中，因为用户的交互操作不一定通过鼠标，也有可能通过键盘，如果单纯使用 <em>cursor:progress</em>，通过键盘操作的用户就无法感知到状态的变化，用户体验其实是不好的。<br>但是，有一个场景却非常适合使用 <em>cursor:progress</em>，那就是页面加载的时候。如今进行 Web 开发，没有 JavaScript 几乎寸步难行，而 JavaScript 加载完毕是需要一定时间的，网络不好的时候，这个加载时间延迟可能会非常明显，于是用户就会遇到明明界面已经呈现了，但是点击“展开更多”按钮却没有任何反应，原因就是 JavaScript还没有完全加载完毕。此时就非常适合<em>cursor:progress</em> 出马了，我们默认在&lt;body&gt;标签上设置：<br><code>body {
-cursor:progress
-}</code><br>然后，当 JavaScript 初始化完毕的时候，执行类似下面的 JavaScript 代码：<br><code>document.body.style.cursor = &#39;auto&#39;;</code><br>于是，刚才的加载场景就变成了这样： Web 页面界面已经呈现，用户想去点击“展开更多”按钮，结果发现此时页面的光标是 <em>cursor:progress</em> 的转圈圈状态，此时，至少大部分用户会意识到我们的网页还没有完全加载完毕，需要再耐心等待一会儿，减少了点击“展开更多”按钮却没有任何反应的不安和焦虑感，对用户更加友好了。</li>
-<li><strong>cursor:wait</strong>：光标形状和电脑死机时候的光标是一样的。因此，请不要在 Web 开发的时候使用<em>cursor:wait</em> 光标，以免引起用户不必要的恐慌。就算真的不响应了，浏览器自己也会处理，我们无须多此一举。</li>
-<li><strong>cursor:context-menu</strong>： <em>cursor:context-menu</em> 兼容性比较复杂， Mac OS X 和Linux 系统下的 Chrome 和 Firefox 浏览器是支持的，但是 Windows 系统下的 Chrome和 Firefox 浏览器却不支持。<br>在 Windows 7 系统下，表现为箭头光标右下方挂了个汽油桶 。<br><em>context-menu</em> 的字面意思是“上下文菜单”，就是右键点击我们的桌面或者网页显示的那个菜单列表。如果套用这个语义， <em>cursor:contextmenu</em> 适用的场景是自定义“上下文菜单”的时候，例如，网盘列表或者邮箱列表，我们可以直接右键删除。此时，如果我们把光标设置为 <em>cursor:context-menu</em>，用户就更容易意识到这里有自定义的、快捷方便的上下文菜单功能，而不是傻傻指望用户自己发现。</li>
-</ul>
-<h4 id="3-选择"><a href="#3-选择" class="headerlink" title="3.  选择"></a>3.  选择</h4><ul>
-<li><strong>cursor:text</strong>：潜台词是文字可被选中。默认文本字符或者可输入的单复选框的光标就表现成这样，因为文字可以被选中；反过来，如果文字是不能被选中的，光标就不应该是<em>cursor:text</em>。<br>举个例子，单行输入框，默认光标表现为<em>cursor:text</em>，但是我们一旦让其<em>disabled</em>禁用，如&lt;input disabled&gt;，则浏览器自动会把光标改变成 <em>cursor:default</em>。<br>同样地，如果我们使用 CSS 让页面上的文本字符不能被选中，则光标也要跟着一起发生变化， CSS 代码如下：<br><code>article {
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-cursor: default;
-}</code><br><em>user-select:none</em> 声明可以让现代浏览器下的文本不能被选中，这个很多人都知道，但是这些人却没注意到要设置 <em>cursor:default</em>，因为设置了 <em>user-select:none</em> 的文本其光标依然表现为 <em>cursor:text</em>，显然语义和表现就不符合了，明明呈现的是可选中文本的光标，结果文本却选不了。因此不要忘记顺便加个<em>cursor:default</em>。</li>
-<li><strong>cursor:vertical-text</strong>：潜台词是文字可以垂直选中，形状类似 。当我们使用<em>writing-mode</em>把文字排版从水平改为垂直的时候，文字的光标就自动表现为<em>cursor:vertical-text</em>。换句话说， <em>cursor:vertical-text</em> 就是给垂直文字排板用的，平常的项目开发很难有机会用到。</li>
-<li><strong>cursor:crosshair</strong>：十字光标。它通常用在像素级的框选或点选场合，比方说自定义的取色工具。</li>
-<li><strong>cursor:cell</strong>： <em>cursor:cell</em> 中的 cell 和 <em>display:table-cell</em> 中的 cell 其实可以看成是同一个东西，也就是单元格。换句话说， <em>cursor:cell</em> 用来表示单元格是可以框选的。<br>原生的 IE8 浏览器并不支持 <em>cursor:cell</em>，若使用， IE8 需要自定义。</li>
-</ul>
-<h4 id="4-拖曳"><a href="#4-拖曳" class="headerlink" title="4.  拖曳"></a>4.  拖曳</h4><ul>
-<li><strong>cursor:move</strong>：光标变成 <em>cursor:move</em>，往往就意味着当前元素是可以移动的，例如，头像剪裁的时候可能需要拖动剪裁框或背景图，就可以设置<em>cursor:move</em>，或者有些弹框组件按住标题栏是可以拖曳的，我们就可以在标题栏上<br>设置 <em>cursor:move</em>，让用户很直观地知道当前弹框是可拖曳的，降低用户的学习成本，还是很有使用价值的。</li>
-<li><strong>cursor:copy</strong>：光标变成 <em>cursor:copy</em>，往往就意味着当前元素是可以被复制的。原生的 IE8 浏览器并不支持，若使用， IE8 需要自定义。</li>
-<li><strong>cursor:alias</strong>：光标变成 <em>cursor:alias</em>，往往就意味着当前元素是可以创建别名或者快捷方式的。原生的 IE8 浏览器并不支持，若使用， IE8 需要自定义。</li>
-<li><strong>cursor:no-drop</strong>：光标变成 <em>cursor: no-drop</em>，往往就意味着当前元素放开到当前位置是不允许的。浏览器的真实表现是和 <em>cursor:not-allowed</em> 一模一样的。</li>
-<li><strong>cursor:not-allowed</strong>：光标变成 <em>cursor:not-allowed</em>，往往就意味着当前行为是禁止的。有一些人会给禁用态按钮设置 <em>cursor:not-allowed</em>，其本身出发点是好的，表示当前按钮禁止访问（不允许点击），似乎也说得通，但其实是不合适的，因为<em>cursor:not-allowed</em> 并不是常规光标状态，而是与拖曳行为相关的，它应该是一种主动行为下的光标表现。例如， Chrome 浏览器下，我们在网页上拖曳一张图片。因此，禁用按钮光标还是使用 <em>cursor:default</em> 更合适，然后通过样式变化让用户一眼就看得出来现在按钮是不可点击的。</li>
-</ul>
-<h4 id="5-滚动"><a href="#5-滚动" class="headerlink" title="5.  滚动"></a>5.  滚动</h4><ul>
-<li><strong>cursor:all-scroll</strong>：表示上下左右都可以滚动，但有一个很糟糕的问题： Windows系统下光标表现和 <em>cursor:move</em>一样。再考虑到本身作用场景局限，我觉得可以忽略此声明。</li>
-</ul>
-<h4 id="6-拉伸"><a href="#6-拉伸" class="headerlink" title="6.  拉伸"></a>6.  拉伸</h4><ul>
-<li><strong>cursor:col-resize</strong>：它适用于移动垂直线条，如垂直参考线。如果要通过移动改变左右分栏的宽度，建议使用 <em>cursor:ew-resize</em>。</li>
-<li><strong>cursor:row-resize</strong>：它适用于移动水平线条，如水平参考线。如果要通过移动改变上下分栏的高度，建议使用 <em>cursor:ns-resize</em>。<br>（1）单向拉伸： 总共 8 个方位 8 个不同的关键字属性值。<br>• cursor:n-resize<br>• cursor:e-resize<br>• cursor:s-resize<br>• cursor:w-resize<br>• cursor:ne-resize<br>• cursor:nw-resize<br>• cursor:se-resize<br>• cursor:sw-resize<br>（2）双向拉伸： 总共 4 个对立方位组合，名称和近似形状如下。<br>• cursor:ew-resize<br>• cursor:ns-resize<br>• cursor:nesw-resize<br>• cursor:nwse-resize<br>双向拉伸的 4 个属性值从 IE10 才开始支持。考虑到单向拉伸往往会自动以双向的形式呈现，因此，实际开发的时候，我们大可这么处理，拿右下角拉伸示意：<br><code>.resize {
-cursor: se-resize;
-cursor: nwse-resize;
-}</code><br>这样，即使有些环境单向拉伸就只有一个方向的箭头，有后面的 <em>cursor:nwse-resize</em>罩着，也不会出现什么明显的样式问题。</li>
-</ul>
-<h4 id="7-缩放"><a href="#7-缩放" class="headerlink" title="7.  缩放"></a>7.  缩放</h4><ul>
-<li><strong>cursor:zoom-in</strong>：光标形似放大镜 。</li>
-<li><strong>cursor:zoom-out</strong>：光标形似缩小镜 。</li>
-</ul>
-<p>这是 CSS3 新支持的两个光标类型。</p>
-<h4 id="8-抓取"><a href="#8-抓取" class="headerlink" title="8.  抓取"></a>8.  抓取</h4><ul>
-<li><strong>cursor:grab</strong>：光标是一个五指张开的手 。</li>
-<li><strong>cursor:grabbing</strong>：光标是一个五指收起的手 。</li>
-</ul>
-<p>这也是 CSS3 新支持的两个光标类型。<br>或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。</p>
-<p>最后，再总结一下琳琅满目的 cursor 属性值的兼容性情况（数据源自 caniuse.com）。</p>
-<ul>
-<li>可以放心使用，无须担心兼容性问题的 cursor 属性值有 auto、 crosshair、default、 move、 text、 wait、 help、 n-resize、 e-resize、 s-resize、w-resize、 ne-resize、 nw-resize、 se-resize、 sw-resize、 pointer、progress 、 not-allowed 、 no-drop 、 vertical-text 、 all-scroll 、col-resize 和 row-resize。</li>
-<li>从 IE9 浏览器才开始支持的属性值有 none、 alias、 cell、 copy、 ew-resize、ns-resize、 nesw-resize、 nwse-resize 和 context-menu。</li>
-<li>从 Edge12 才开始支持的属性值有 zoom-in 和 zoon-out。</li>
-<li>从 Edge14 才开始支持的属性值有 grab 和 grabbing（源自 MDN 文档）。</li>
-</ul>
-<p>另外，从 IE6 开始，我们就可以自定义网页中的光标样式，因此，对于 cursor 属性，兼容性都不是问题。例如， IE8 不支持上面提到的 <em>cursor:none</em>，就是通过自定义手段实现兼容的：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cur-none</span> &#123;</span><br><span class="line">	<span class="attribute">cursor</span>: <span class="built_in">url</span>(transparent.cur);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>对于 Chrome 等浏览器，可以直接使用 PNG 图片作为光标，但是 IE 浏览器不行。 IE 仅支持专门的.cur 格式的光标文件，需要使用工具进行格式转换，至于什么工具，大家可以自行搜索一下，还是有很多的。<br>解决兼容性问题只是自定义光标的作用之一，自定义光标最大的作用其实是根据业务需要对光标进行更为彻底的自定义，最常见的就是点击图片左右半区，分别实现上一张、下一张图片切换预览的效果。</p>
-<p>今天就先到这里吧，未完待续。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 学习笔记 </category>
-            
-        </categories>
-        
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[项目笔记-如何从A页面跳转到B页面指定的slide]]></title>
-      <url>/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0-%E5%A6%82%E4%BD%95%E4%BB%8EA%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E5%88%B0B%E9%A1%B5%E9%9D%A2%E6%8C%87%E5%AE%9A%E7%9A%84slide.html</url>
-      <content type="html"><![CDATA[<p>昨天下班，北京竟下起了雪。这就是传说中的“雪债雪偿”吗？</p>
-<p><img src="http://ozg6hqkcn.bkt.clouddn.com/snow.jpg" alt="enter image description here"></p>
-<p>闲话不多说，最近在项目中遇到一个需求，B页面是一个14个slide组成的轮播样式，A页面中有14个超链接分别指向B页面对应的slide，点击超链接会跳转到对应的slide。</p>
-<p>刚看到这个需求时，没有什么头绪，因为B页面加载进来后必然会是第一个slide。</p>
-<p>通过翻看<a href="http://www.swiper.com.cn/" target="_blank" rel="external">swiper</a>的API，看到了slideTo（）方法,语法如下：</p>
-<blockquote>
-<p><em>mySwiper.slideTo(index, speed, runCallbacks)</em><br>Swiper切换到指定slide。<br>index:必选，num，指定将要切换到的slide的索引。<br>speed:可选，num(单位ms)，切换速度。<br>runCallbacks:可选，boolean，设置为false时不会触发onSlideChange回调函数。</p>
-</blockquote>
-<p>既然这样，自然想到可以给每个超链接带个索引，跳转过来时获取到索引，然后迅速滑到对应的slide。</p>
-<p>A页面HTML部分<br><figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;p class="line1"&gt;</span><br><span class="line">  &lt;a href="#" data-count='0'&gt;首页&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='1'&gt;个人中心&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line2"&gt;</span><br><span class="line">  &lt;a href="#" data-count='2'&gt;我的课表&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='3'&gt;账户余额&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line3"&gt;</span><br><span class="line">  &lt;a href="#" data-count='4'&gt;我的课程&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='5'&gt;我的发票&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line4"&gt;</span><br><span class="line">  &lt;a href="#" data-count='6'&gt;活动报名&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='7'&gt;推荐好友&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line5"&gt;</span><br><span class="line">  &lt;a href="#" data-count='8'&gt;课后作业&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='9'&gt;校区评价&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line6"&gt;</span><br><span class="line">  &lt;a href="#" data-count='10'&gt;错题本&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='11'&gt;高豆兑换&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;p class="line7"&gt;</span><br><span class="line">  &lt;a href="#" data-count='12'&gt;消息通知&lt;/a&gt;</span><br><span class="line">  &lt;a href="#" data-count='13'&gt;每日任务&lt;/a&gt;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
-<p>A页面JS部分<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$a = $(<span class="string">'a'</span>);</span><br><span class="line">$a.on(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="keyword">let</span> index = $(<span class="keyword">this</span>).attr(<span class="string">'data-count'</span>);</span><br><span class="line"><span class="built_in">window</span>.location.href = <span class="string">"./userManualsDetail.html?"</span> + <span class="string">"num="</span> + <span class="built_in">encodeURI</span>(index);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>B页面JS部分<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> loc = <span class="built_in">window</span>.location.href;</span><br><span class="line"><span class="keyword">let</span> n1 = loc.length;<span class="comment">//地址的总长度</span></span><br><span class="line"><span class="keyword">let</span> n2 = loc.indexOf(<span class="string">'='</span>);<span class="comment">//取得=号的位置</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="built_in">decodeURI</span>(loc.substr(n2 + <span class="number">1</span>, n1 - n2));<span class="comment">//=号后面的内容</span></span><br><span class="line"><span class="keyword">if</span> (n2&gt;<span class="number">0</span>) &#123;</span><br><span class="line">  mySwiper.slideTo(num,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>详细代码可参考我的<a href="https://github.com/suchenglin2017/a-to-b-given-slide/" target="_blank" rel="external">GitHub</a>（移动端观看）。    </p>
-<p>今天就总结到这，明天要去驾校练车，早点休息~~  </p>
-]]></content>
-      
-        <categories>
-            
-            <category> 总结 </category>
-            
-        </categories>
-        
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[JS乘性操作符小总结]]></title>
-      <url>/JS%E4%B9%98%E6%80%A7%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%B0%8F%E6%80%BB%E7%BB%93.html</url>
-      <content type="html"><![CDATA[<p>今天有小伙伴问我JS乘法中Infinity的用法，发现自己不太了解，想到当时的尴尬气氛，也为了以后方便查询，遂下定决心总结一番。<br><img src="http://ozg6hqkcn.bkt.clouddn.com/ganga.png" alt="enter image description here"></p>
-<p>从头开始吧，ECMAScript共定义了三个乘性操作符：<strong>乘法</strong>、<strong>除法</strong>和<strong>求模</strong>。这些操作符与C、Java或者Perl中的相应操作符用途类型，只不过在操作数为非数值的情况下会执行自动的类型转换。如果参与乘法运算的某个操作数不是数值，后台会先使用<strong>Number()</strong>转型函数将其转换为数值。也就是说，空字符串将被当做0，布尔值true将被当做1。</p>
-<p><strong>一、乘法</strong><br>在处理特殊值的情况下，乘法操作符遵循下列特殊的规则：</p>
-<ul>
-<li><p>如果操作数都是数值，执行常规的乘法运算，即两个正数或两个负数相乘的结果还是正数，而如果只有一个操作数有负号，那么结果就是负数。如果乘积超过了ECMAScript数值的表示范围，则返回<code>Infinity</code>或<code>-Infinity</code>；</p>
-<blockquote>
-<p>由于内存的限制，ECMAScript并不能保存世界上所有的数值。ECMAScript能够表示的最小数值保存在 <code>Number.MIN_VALUE</code>中，在大多数浏览器中，这个值是<code>5e-324</code>;能够表示的最大数值保存在<code>Number.MAX_VALUE</code>中，在大多数浏览器中，这个值是<code>1.7976931348623157e+308</code>。</p>
-</blockquote>
-</li>
-<li><p>如果有一个操作数是<code>NaN</code>，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">8</span>*<span class="literal">NaN</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>与<code>0</code>相乘，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>*<span class="number">0</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>与非零数值相乘，则结果是<code>Infinity</code>或<code>-Infinity</code>，取决于操作数的符号；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>*<span class="number">3</span>) <span class="comment">//Infinity</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>*<span class="number">-3</span>) <span class="comment">//-Infinity</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>与<code>Infinity</code>相乘，则结果是<code>Infinity</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>*<span class="literal">Infinity</span>) <span class="comment">//Infinity</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果有一个操作数不是数值，则在后台调用<code>Number()</code>将其转换为数值，然后再应用上面的规则。</p>
-</li>
-</ul>
-<p><strong>二、除法</strong><br>与乘法操作符类似，除法操作符对特殊的值也有特殊的处理规则。</p>
-<ul>
-<li>如果操作数都是数值，执行常规的除法运算，即两个正数或两个负数相除的结果还是正数，而如果只有一个操作数有负号，那么结果就是负数。如果超过了ECMAScript数值的表示范围，则返回<code>Infinity</code>或<code>-Infinity</code>；</li>
-<li><p>如果有一个操作数是<code>NaN</code>，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">NaN</span>/<span class="number">4</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>被<code>Infinity</code>除，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>/<span class="literal">Infinity</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是零被零除，则结果是<code>NaN</code>;</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>/<span class="number">0</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是非零的有限数被零除，则结果是<code>Infinity</code>或<code>-Infinity</code>，取决于操作数的符号；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">2</span>/<span class="number">0</span>) <span class="comment">//Infinity</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">-3</span>/<span class="number">0</span>) <span class="comment">//-Infinity</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>被任何非零数值除，则结果是<code>Infinity</code>或<code>-Infinity</code>，取决于操作数符号；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>/<span class="number">3</span>) <span class="comment">//Infinity</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>/<span class="number">-5</span>) <span class="comment">//-Infinity</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果有一个操作数不是数值，则在后台调用<code>Number()</code>将其转换为数值，然后再应用上面的规则。</p>
-</li>
-</ul>
-<p><strong>三、求模</strong><br>与另外两个乘性操作符类似，求模操作符会遵循下列特殊规则处理特殊的值。</p>
-<ul>
-<li>如果操作数都是数值，执行常规的除法运算，返回除得的余数；</li>
-<li><p>如果被除数是无穷大值而除数是有限大的数值，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>%<span class="number">8</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果被除数是有限大的数值而除数是零，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">7</span>%<span class="number">0</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果是<code>Infinity</code>被<code>Infinity</code>除，则结果是<code>NaN</code>；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="literal">Infinity</span>%<span class="literal">Infinity</span>) <span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果被除数是有限大的数值而除数是无穷大的数值，则结果是被除数；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">6</span>%<span class="literal">Infinity</span>) <span class="comment">//6</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果被除数是零，则结果是零；</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">0</span>%<span class="literal">Infinity</span>) <span class="comment">//0</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果有一个操作数不是数值，则在后台调用<code>Number()</code>将其转换为数值，然后再应用上面的规则。</p>
-</li>
-</ul>
-<p>今天就先总结到这里吧，如果错误，欢迎指正。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> 总结 </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> JS操作符 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[vue学习填坑记之Vue.js devtools安装后无法启用]]></title>
-      <url>/vue%E5%AD%A6%E4%B9%A0%E5%A1%AB%E5%9D%91%E8%AE%B0%E4%B9%8BVue-js-devtools%E5%AE%89%E8%A3%85%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E7%94%A8.html</url>
-      <content type="html"><![CDATA[<p>学习一门技术的时候，总会掉进各种各样的坑里。说实话，往外爬的过程是很考验人的耐力的。此时，如果有人打扰你，你应该告诉TA,社会主义救了你…</p>
-<p>貌似跑题了，各位看官不要介意，本人思维太跳跃，下面步入正题。</p>
-<p>今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？</p>
-<p>为了日后方便查阅，特把本人的解决方法总结如下。</p>
-<h4 id="修改插件manifest文件"><a href="#修改插件manifest文件" class="headerlink" title="修改插件manifest文件"></a>修改插件manifest文件</h4><p>找到Vue.js devtools的安装目录，可以在电脑中搜索插件的ID：nhdogjmejiglipccpnnnanhbledajbpd。我是win10系统，默认安装在C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Extensions\nhdogjmejiglipccpnnnanhbledajbpd处。</p>
-<p>点进去找到manifest.json文件并打开，persistent修改为true。<br>    <img src="http://ozg6hqkcn.bkt.clouddn.com/images/manifest%E4%BF%AE%E6%94%B9.png" alt="manifest"></p>
-<p>上述修改后没有反应？机智的我继续往外爬。</p>
-<h4 id="插件使用环境"><a href="#插件使用环境" class="headerlink" title="插件使用环境"></a>插件使用环境</h4><p>通过查阅文档，发现有以下两种情况。</p>
-<p>第一，页面使用的vue如果是生产环境，即压缩版本的话，devtools的选项是默认关闭的，所以可以使用非压缩版的。</p>
-<p>第二，页面若是使用file://形式打开的话，需要到chrome扩展程序处勾上“允许访问文件网址”。或者使用服务器查看。<br>    <img src="http://ozg6hqkcn.bkt.clouddn.com/images/vue%E8%B0%B7%E6%AD%8C%E6%8F%92%E4%BB%B6%E8%AE%BE%E7%BD%AE.png" alt="plugin"></p>
-<p>经过一番折腾，V终于又亮了，哈哈，不错吧。</p>
-]]></content>
-      
-        <categories>
-            
-            <category> vue </category>
-            
-        </categories>
-        
-        
-        <tags>
-            
-            <tag> vue插件 </tag>
-            
-        </tags>
-        
-    </entry>
-    
-  
-  
+<search>
+  <entry>
+    <title><![CDATA[CSS世界学习笔记（2）]]></title>
+    <url>%2FCSS%E4%B8%96%E7%95%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89.html</url>
+    <content type="text"><![CDATA[今天继续《CSS世界》这本书的学习之旅，这次主要是关于:first-letter的。 之前 first-letter 叫伪类选择器，写法是前面加一个冒号，如:first-letter。那时候的语义要更直白一些，选择第一个字符，然后设置一些样式。后来，伪类和伪元素被划分得更加明确和规范了， ::after、 ::before、::backdrop、 ::first-letter、 ::first-line、 ::selection 等是伪元素， :active、:focus、 :checked 等被称为伪类，这就导致::first-letter 的语义发生了一些变化—首字符作为元素的假想子元素。 “假想子元素”，听上去有些故弄玄虚的感觉，实际并不是，以这种更加直白通俗的方式解析才更容易理解下面的很多现象。 1． ::first-letter 伪元素生效的前提要想让::first-letter(:first-letter)伪元素生效，是需要满足一定条件的，而且条件乍一看还挺苛刻。首先，元素的 display 计算值必须是 block、 inline-block、 list-item、 tablecell 或者 table-caption，其他所有 display 计算值都没有用，包括 display:table和 display:flex 等。此外，不是所有的字符都能单独作为::first-letter 伪元素存在的。什么意思呢？我们看一个简单的例子， CSS 和 HTML 代码如下：p:first-letter { color: silver; }&lt;p&gt;？？？？？？？ &lt;/p&gt;按照我们的认知，第一个问号应该是银色的，但实际上，全部都是默认的黑色。为什么呢？这是因为常见的标点符号 、各类括号和引号在::first-letter 伪元素眼中全部都是“辅助类”字符，有点儿买东西送赠品的感觉，但是赠品本身却不能购买，这里的问号“？”就属于赠品。有些不理解？看一个例子就知道了。假如我们在上面的 HTML 中一堆问号后面写上一些内容字符，比方说中文“辅助”二字，结果效果如图所示。![enter image description here](http://ozg6hqkcn.bkt.clouddn.com/pic2.jpg)“？？？？？？？辅”全部都成银色了！原因很简单，“辅助”二字才是::first-letter 伪元素真正要收入囊中作为“伪元素”的字符，但是现在前面出现了一堆它不感兴趣的问号，怎么办呢？那就当作赠品一并收了，于是，一大波字符全都成银色了。如果全是问号，因为没有主商品，自然也就无法获得赠品，所以::first-letter 没有选择任何字符，问号全部默认是黑色。有人可能会有疑问：那到底哪些字符属于“赠品”，哪些属于“商品”呢？总结下来就是，“赠品字符”包括·@#%&amp;*()（） []【】 {}:： ““”;； ‘‘’》《,， .。？ ?!！ …*、 /\。正常情况下可以直接作为伪元素的字符就是数字、英文字母、中文、 $、一些运算符，以及非常容易被忽视的空格等。这里的“空格”有必要再加粗强调一下，因为它的确是很容易被忽视的一个字符。最后说明一点，字符前面不能有图片或者 inline-block/inline-table 之类的元素存在。例如，下面的 HTML 和 CSS 代码：p:first-letter { color: silver; }&lt;p&gt;&lt;i style=&quot;display:inline-block&quot;&gt;&lt;/i&gt;银色&lt;/p&gt;结果“银色”两字的颜色还是黑色。这就是因为多了一个 display 值是inline-block 尺寸为 0 的&lt;i&gt;元素，导致::first-letter 伪元素直接不起作用了。一般来讲， ::before 伪元素和普通元素之间没有多少瓜葛，例如:first-child和:empty 之类的选择器都不受影响，但是，由于::first-letter 和::before 一样也是伪元素，“暗生情愫”也是难免的。翻译成 CSS 世界的术语就是： ::before 伪元素也参与::first-letter 伪元素。例如，如下 CSS 和 HTML 代码：p:before { content: &#39;新闻： &#39;; } p:first-letter { color: silver; }&lt;p&gt;这是新闻的标题……&lt;/p&gt;结果“新”变成了银色。包括 IE8 在内的浏览器都是这样的表现。 ####2． ::first-letter 伪元素可以生效的 CSS 属性如果字符被选作了::first-letter 伪元素，并不是像::before 伪元素那样，几乎所有 CSS 都有效，只是一部分有效。• 所有字体相关属性： font、 font-style 、 font-variant 、 font-weight 、font-size、 line-height 和 font-family。• 所有背景相关属性： background-color、 background-image、 backgroundposition、 background-repeat、 background-size 和 background-attachment。• 所有 margin 相关属性： margin、 margin-top、 margin-right、 margin-bottom和 margin-left。• 所有 padding 相关属性： padding、 padding-top、 padding-right、 paddingbottom 和 padding-left。• 所有 border 相关属性：缩写的 border、 border-style、 border-color、border-width 和普通书写的属性。• color 属性。• text-decoration、 text-transform、 letter-spacing、 word-spacing（合适情境下）、 line-height、 float 和 vertical-align（只有当 float 为 none的时候）等属性。因此，如果妄图使用 visibility:hidden 或者 display:none 隐藏::firstletter 伪元素，还是省省吧。 3． ::first-letter 伪元素的一些有意思的特点（1） 支持部分 display 属性值标签嵌套。 ::first-letter 伪元素获取可以跨标签，也就是不仅能选择匿名内联盒子，还能透过层层标签进行选择，但是也有一些限制，并不是所有标签嵌套都是有用的。display 值如果是 inline、 block、 table、 table-row、 table-caption、 tablecell、 list-item 都是可以的，但是不能是 inline-block 和 inlinetable，否则::first-letter 伪元素会直接无效；而 display:flex则改变了规则，直接选择了下一行的字符内容。例如：p:first-letter { color: silver; } p &gt; span { display: table; }&lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符看看会不会变色？ &lt;/p&gt;“第”字变成银色了。这种嵌套关系支持多层嵌套，即连续套 4～5 层 inline水平的标签和没有任何标签嵌套的效果是一样的。（2） 颜色等权重总是多了一层。 这是非常容易犯的一个错误，也是 CSS 世界十大不易理解问题之一。例如：p:first-letter { color: red; } p &gt; span { color: blue!important; }&lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符看看会不会变红？ &lt;/p&gt;请问“第”这个字符的颜色是什么？基本上，超过 95%的前端人员会认为是 blue，因为大家都是从 CSS 选择器权重的角度去考虑的。这个答案本身没问题，但是却忽略了很重要的一点， ::first-letter 伪元素其实是作为子元素存在的，或者说应当看出是子元素，于是就很好理解了。对于类似 color 这样的继承属性 ，子元素的 CSS设置一定比父元素的级别要高，哪怕父级使用 了重量级的!important，因为子元素会先继承，然后再应用自身设置。因此，上面 CSS 和 HTML 代码的最终结果是，第一个字符“第”字的颜色是 red，红色！这就是::first-letter 伪元素的另外一个重要特性—颜色等权重总是多了一层。 ####4． ::first-letter 实际应用举例电商产品经常会有价格，价格前面一般都有一个¥符号，这个符号字体往往会比较特殊，字号也比较大，同时和文字的数值有几像素的距离。要实现这样的效果，通常的做法是在¥符号外面包一个 span 标签，命名一个类名，然后通过 CSS 控制。实际上，还有更简单巧妙的方法，就是使用本文介绍的::first-letter 伪元素。CSS 示例代码如下：.price:first-letter { margin-right: 5px; font-size: xx-large; vertical-align: -2px; }于是，我们的 HTML 就可以很简洁：&lt;p&gt;¥399&lt;/p&gt;![enter image description here](http://ozg6hqkcn.bkt.clouddn.com/pic1.jpg)¥并不是“赠品字符”，因此这里可行。]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[CSS世界学习笔记（1）]]></title>
+    <url>%2FCSS%E4%B8%96%E7%95%8C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89.html</url>
+    <content type="text"><![CDATA[最近在拜读张鑫旭大大的新书《CSS世界》，读后加深了自己对CSS的理解，也推荐大家购买看看。 以下是拜读后的笔记–光标属性cursor。 cursor 属性值几乎可以认为是当下支持的关键字属性值最多的 CSS 属性。 1. 常规 cursor:auto： cursor 默认值。 auto 表示光标形状根据内容类别浏览器自动进行处理。例如，输入框里面光标表现为 cursor:text，带 href 属性的链接表现为cursor:pointer，而原生的&lt;button&gt;表现为 cursor:default 等。 cursor:default：系统默认光标形状。虽然有“默认”之意，但却不是 cursor 属性的默认值，需要注意。如何严格按照操作系统以及浏览器默认的光标行为呢？目前 Web 页面中所有按钮都使用 cursor:pointer 手形的做法并不标准，链接才是手形，按钮应该都是默认形，通过 hover 时候的状态变化让用户知道这里是可以点击、可以有交互的。但是如下一些情况的存在，导致业内都习惯把所有可点击、可交互的元素的光标全部变成手形。 忘记设置 hover 样式或者不方便设置，例如，图标 hover 变色效果，需要多份不同色背景图，尤其现在都喜欢使用工具合并，默认生成的 CSS 是没有 hover 样式的，需要自己特殊处理。此时，如果这个图标按钮采用默认 default 光标，容易让用户觉得这里是不可点击的，但是使用 pointer 手形光标，由于光标变化本身就是一种 hover 状态变化，可以让用户意识到这个元素是“特别的”。同样地，反过来，模拟按钮的禁用效果的时候，也要记得把 cursor:pointer 还原成cursor:default，很多人都不注意这个细节。 由于浏览器原生的按钮样式兼容方面难以完美，尤其在 IE 盛行的年代，黑框、宽高不一致等一系列样式问题层不出穷，于是大家就使用&lt;a&gt;标签来模拟按钮，类似这样：&lt;a href=”javascript:” class=”button” role=”button”&gt;按钮&lt;/a&gt;而浏览器中默认带 href 属性的&lt;a&gt;标签的光标都是手形，而且这个手形效果也蛮好，没有必要再额外重置为 default 默认形。于是，久而久之，大家就约定俗成，所有链接和按钮都使用手形。以至于发展到现在，使用原生的&lt;button&gt;按钮甚至下拉框的时候，都要设置一个 cursor:pointer。这种奇怪的发展史真是比小说还精彩。 cursor:none：这个声明非常有意思，可以让光标隐藏不见。什么情况下我们不需要光标呢？看视频的时候，尤其全屏看视频的时候。此时鼠标一直在界面上晃着，是很碍眼、很难受的。一般可以这么处理：如果鼠标静止 3 秒不动，就设置页面或视频元素 cursor:none 隐藏光标，如果有 mousemove 行为，再显示即可！然而这样做有一个小问题，就是 IE8 浏览器并不支持 cursor:none 声明，从 IE9 浏览器才开始支持这个属性，怎么办呢？很简单， IE8 浏览器使用自定义的透明光标就可以了。弄一张纯透明的 PNG 图片，然后制作成 cur 格式，就可以实现全部浏览器下的光标隐藏效果了。CSS 代码如下：.cur-none { cursor: url(transparent.cur), auto; } :root .cur-none { cursor: none; }:root 是 IE9 及以上版本浏览器才认识的选择器，因此可以把 IE8 和其他浏览器区分开。 2. 链接和状态 cursor:pointer：光标表现为一只伸出食指的手。IE 浏览器还支持cursor:hand，表现和 cursor:pointer 是一样的，但其他浏览器并不识别，因此没有任何使用 cursor:hand 的理由。我以前其实产生过疑问：为何“手形”不统一是 cursor:hand？这样通俗易懂又好记。后来算是明白了， hand 这个词太概括和笼统，随着 CSS 发展，一定会出现其他与“手”相关的形状，例如，抓取相关的 grab和 grabbing 等。 cursor:help：帮助，通常是光标头上带了个问号。它用在帮助链接或者包含提示信息的问号小图标上。目前，类似场景几乎都使用 cursor:pointer手形，实际上，可以试试使用 cursor:help，让我们的交互细节和视觉呈现更加细腻，让用户感受到我们在产品上的用心。 cursor:progress：表示进行中的意思。从语义上讲，其适合 loading 处理。例如，我们点击一个按钮发送请求，请求发送出去、返回数据还没接收到的这段时 间 其 实 就 是 一 个 progress 状 态 。按道理讲，可以让按钮的光标变成cursor:progress，例如， Windows 7 系统下的 会有一个不停旋转的圈圈。但是我个人更建议对按钮本身的样子进行改变，例如，加个菊花加载效果，让用户感知到目前正在处理中，因为用户的交互操作不一定通过鼠标，也有可能通过键盘，如果单纯使用 cursor:progress，通过键盘操作的用户就无法感知到状态的变化，用户体验其实是不好的。但是，有一个场景却非常适合使用 cursor:progress，那就是页面加载的时候。如今进行 Web 开发，没有 JavaScript 几乎寸步难行，而 JavaScript 加载完毕是需要一定时间的，网络不好的时候，这个加载时间延迟可能会非常明显，于是用户就会遇到明明界面已经呈现了，但是点击“展开更多”按钮却没有任何反应，原因就是 JavaScript还没有完全加载完毕。此时就非常适合cursor:progress 出马了，我们默认在&lt;body&gt;标签上设置：body { cursor:progress }然后，当 JavaScript 初始化完毕的时候，执行类似下面的 JavaScript 代码：document.body.style.cursor = &#39;auto&#39;;于是，刚才的加载场景就变成了这样： Web 页面界面已经呈现，用户想去点击“展开更多”按钮，结果发现此时页面的光标是 cursor:progress 的转圈圈状态，此时，至少大部分用户会意识到我们的网页还没有完全加载完毕，需要再耐心等待一会儿，减少了点击“展开更多”按钮却没有任何反应的不安和焦虑感，对用户更加友好了。 cursor:wait：光标形状和电脑死机时候的光标是一样的。因此，请不要在 Web 开发的时候使用cursor:wait 光标，以免引起用户不必要的恐慌。就算真的不响应了，浏览器自己也会处理，我们无须多此一举。 cursor:context-menu： cursor:context-menu 兼容性比较复杂， Mac OS X 和Linux 系统下的 Chrome 和 Firefox 浏览器是支持的，但是 Windows 系统下的 Chrome和 Firefox 浏览器却不支持。在 Windows 7 系统下，表现为箭头光标右下方挂了个汽油桶 。context-menu 的字面意思是“上下文菜单”，就是右键点击我们的桌面或者网页显示的那个菜单列表。如果套用这个语义， cursor:contextmenu 适用的场景是自定义“上下文菜单”的时候，例如，网盘列表或者邮箱列表，我们可以直接右键删除。此时，如果我们把光标设置为 cursor:context-menu，用户就更容易意识到这里有自定义的、快捷方便的上下文菜单功能，而不是傻傻指望用户自己发现。 3. 选择 cursor:text：潜台词是文字可被选中。默认文本字符或者可输入的单复选框的光标就表现成这样，因为文字可以被选中；反过来，如果文字是不能被选中的，光标就不应该是cursor:text。举个例子，单行输入框，默认光标表现为cursor:text，但是我们一旦让其disabled禁用，如&lt;input disabled&gt;，则浏览器自动会把光标改变成 cursor:default。同样地，如果我们使用 CSS 让页面上的文本字符不能被选中，则光标也要跟着一起发生变化， CSS 代码如下：article { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; cursor: default; }user-select:none 声明可以让现代浏览器下的文本不能被选中，这个很多人都知道，但是这些人却没注意到要设置 cursor:default，因为设置了 user-select:none 的文本其光标依然表现为 cursor:text，显然语义和表现就不符合了，明明呈现的是可选中文本的光标，结果文本却选不了。因此不要忘记顺便加个cursor:default。 cursor:vertical-text：潜台词是文字可以垂直选中，形状类似 。当我们使用writing-mode把文字排版从水平改为垂直的时候，文字的光标就自动表现为cursor:vertical-text。换句话说， cursor:vertical-text 就是给垂直文字排板用的，平常的项目开发很难有机会用到。 cursor:crosshair：十字光标。它通常用在像素级的框选或点选场合，比方说自定义的取色工具。 cursor:cell： cursor:cell 中的 cell 和 display:table-cell 中的 cell 其实可以看成是同一个东西，也就是单元格。换句话说， cursor:cell 用来表示单元格是可以框选的。原生的 IE8 浏览器并不支持 cursor:cell，若使用， IE8 需要自定义。 4. 拖曳 cursor:move：光标变成 cursor:move，往往就意味着当前元素是可以移动的，例如，头像剪裁的时候可能需要拖动剪裁框或背景图，就可以设置cursor:move，或者有些弹框组件按住标题栏是可以拖曳的，我们就可以在标题栏上设置 cursor:move，让用户很直观地知道当前弹框是可拖曳的，降低用户的学习成本，还是很有使用价值的。 cursor:copy：光标变成 cursor:copy，往往就意味着当前元素是可以被复制的。原生的 IE8 浏览器并不支持，若使用， IE8 需要自定义。 cursor:alias：光标变成 cursor:alias，往往就意味着当前元素是可以创建别名或者快捷方式的。原生的 IE8 浏览器并不支持，若使用， IE8 需要自定义。 cursor:no-drop：光标变成 cursor: no-drop，往往就意味着当前元素放开到当前位置是不允许的。浏览器的真实表现是和 cursor:not-allowed 一模一样的。 cursor:not-allowed：光标变成 cursor:not-allowed，往往就意味着当前行为是禁止的。有一些人会给禁用态按钮设置 cursor:not-allowed，其本身出发点是好的，表示当前按钮禁止访问（不允许点击），似乎也说得通，但其实是不合适的，因为cursor:not-allowed 并不是常规光标状态，而是与拖曳行为相关的，它应该是一种主动行为下的光标表现。例如， Chrome 浏览器下，我们在网页上拖曳一张图片。因此，禁用按钮光标还是使用 cursor:default 更合适，然后通过样式变化让用户一眼就看得出来现在按钮是不可点击的。 5. 滚动 cursor:all-scroll：表示上下左右都可以滚动，但有一个很糟糕的问题： Windows系统下光标表现和 cursor:move一样。再考虑到本身作用场景局限，我觉得可以忽略此声明。 6. 拉伸 cursor:col-resize：它适用于移动垂直线条，如垂直参考线。如果要通过移动改变左右分栏的宽度，建议使用 cursor:ew-resize。 cursor:row-resize：它适用于移动水平线条，如水平参考线。如果要通过移动改变上下分栏的高度，建议使用 cursor:ns-resize。（1）单向拉伸： 总共 8 个方位 8 个不同的关键字属性值。• cursor:n-resize• cursor:e-resize• cursor:s-resize• cursor:w-resize• cursor:ne-resize• cursor:nw-resize• cursor:se-resize• cursor:sw-resize（2）双向拉伸： 总共 4 个对立方位组合，名称和近似形状如下。• cursor:ew-resize• cursor:ns-resize• cursor:nesw-resize• cursor:nwse-resize双向拉伸的 4 个属性值从 IE10 才开始支持。考虑到单向拉伸往往会自动以双向的形式呈现，因此，实际开发的时候，我们大可这么处理，拿右下角拉伸示意：.resize { cursor: se-resize; cursor: nwse-resize; }这样，即使有些环境单向拉伸就只有一个方向的箭头，有后面的 cursor:nwse-resize罩着，也不会出现什么明显的样式问题。 7. 缩放 cursor:zoom-in：光标形似放大镜 。 cursor:zoom-out：光标形似缩小镜 。 这是 CSS3 新支持的两个光标类型。 8. 抓取 cursor:grab：光标是一个五指张开的手 。 cursor:grabbing：光标是一个五指收起的手 。 这也是 CSS3 新支持的两个光标类型。或许是因为操作系统并不存在这样的光标类型，不同浏览器下这个“五指张开/收起的手”的形状还是有些差异的，而其他比较传统的光标则完全一致，并且都和操作系统的光标一模一样。 最后，再总结一下琳琅满目的 cursor 属性值的兼容性情况（数据源自 caniuse.com）。 可以放心使用，无须担心兼容性问题的 cursor 属性值有 auto、 crosshair、default、 move、 text、 wait、 help、 n-resize、 e-resize、 s-resize、w-resize、 ne-resize、 nw-resize、 se-resize、 sw-resize、 pointer、progress 、 not-allowed 、 no-drop 、 vertical-text 、 all-scroll 、col-resize 和 row-resize。 从 IE9 浏览器才开始支持的属性值有 none、 alias、 cell、 copy、 ew-resize、ns-resize、 nesw-resize、 nwse-resize 和 context-menu。 从 Edge12 才开始支持的属性值有 zoom-in 和 zoon-out。 从 Edge14 才开始支持的属性值有 grab 和 grabbing（源自 MDN 文档）。 另外，从 IE6 开始，我们就可以自定义网页中的光标样式，因此，对于 cursor 属性，兼容性都不是问题。例如， IE8 不支持上面提到的 cursor:none，就是通过自定义手段实现兼容的：123.cur-none &#123; cursor: url(transparent.cur);&#125; 对于 Chrome 等浏览器，可以直接使用 PNG 图片作为光标，但是 IE 浏览器不行。 IE 仅支持专门的.cur 格式的光标文件，需要使用工具进行格式转换，至于什么工具，大家可以自行搜索一下，还是有很多的。解决兼容性问题只是自定义光标的作用之一，自定义光标最大的作用其实是根据业务需要对光标进行更为彻底的自定义，最常见的就是点击图片左右半区，分别实现上一张、下一张图片切换预览的效果。 今天就先到这里吧，未完待续。]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[项目笔记-如何从A页面跳转到B页面指定的slide]]></title>
+    <url>%2F%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0-%E5%A6%82%E4%BD%95%E4%BB%8EA%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E5%88%B0B%E9%A1%B5%E9%9D%A2%E6%8C%87%E5%AE%9A%E7%9A%84slide.html</url>
+    <content type="text"><![CDATA[昨天下班，北京竟下起了雪。这就是传说中的“雪债雪偿”吗？ 闲话不多说，最近在项目中遇到一个需求，B页面是一个14个slide组成的轮播样式，A页面中有14个超链接分别指向B页面对应的slide，点击超链接会跳转到对应的slide。 刚看到这个需求时，没有什么头绪，因为B页面加载进来后必然会是第一个slide。 通过翻看swiper的API，看到了slideTo（）方法,语法如下： mySwiper.slideTo(index, speed, runCallbacks)Swiper切换到指定slide。index:必选，num，指定将要切换到的slide的索引。speed:可选，num(单位ms)，切换速度。runCallbacks:可选，boolean，设置为false时不会触发onSlideChange回调函数。 既然这样，自然想到可以给每个超链接带个索引，跳转过来时获取到索引，然后迅速滑到对应的slide。 A页面HTML部分12345678910111213141516171819202122232425262728&lt;p class="line1"&gt; &lt;a href="#" data-count='0'&gt;首页&lt;/a&gt; &lt;a href="#" data-count='1'&gt;个人中心&lt;/a&gt;&lt;/p&gt;&lt;p class="line2"&gt; &lt;a href="#" data-count='2'&gt;我的课表&lt;/a&gt; &lt;a href="#" data-count='3'&gt;账户余额&lt;/a&gt;&lt;/p&gt;&lt;p class="line3"&gt; &lt;a href="#" data-count='4'&gt;我的课程&lt;/a&gt; &lt;a href="#" data-count='5'&gt;我的发票&lt;/a&gt;&lt;/p&gt;&lt;p class="line4"&gt; &lt;a href="#" data-count='6'&gt;活动报名&lt;/a&gt; &lt;a href="#" data-count='7'&gt;推荐好友&lt;/a&gt;&lt;/p&gt;&lt;p class="line5"&gt; &lt;a href="#" data-count='8'&gt;课后作业&lt;/a&gt; &lt;a href="#" data-count='9'&gt;校区评价&lt;/a&gt;&lt;/p&gt;&lt;p class="line6"&gt; &lt;a href="#" data-count='10'&gt;错题本&lt;/a&gt; &lt;a href="#" data-count='11'&gt;高豆兑换&lt;/a&gt;&lt;/p&gt;&lt;p class="line7"&gt; &lt;a href="#" data-count='12'&gt;消息通知&lt;/a&gt; &lt;a href="#" data-count='13'&gt;每日任务&lt;/a&gt;&lt;/p&gt; A页面JS部分12345$a = $('a');$a.on('click',function()&#123;let index = $(this).attr('data-count');window.location.href = "./userManualsDetail.html?" + "num=" + encodeURI(index);&#125;) B页面JS部分1234567let loc = window.location.href;let n1 = loc.length;//地址的总长度let n2 = loc.indexOf('=');//取得=号的位置let num = decodeURI(loc.substr(n2 + 1, n1 - n2));//=号后面的内容if (n2&gt;0) &#123; mySwiper.slideTo(num,0);&#125; 详细代码可参考我的GitHub（移动端观看）。 今天就总结到这，明天要去驾校练车，早点休息~~]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[JS乘性操作符小总结]]></title>
+    <url>%2FJS%E4%B9%98%E6%80%A7%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%B0%8F%E6%80%BB%E7%BB%93.html</url>
+    <content type="text"><![CDATA[今天有小伙伴问我JS乘法中Infinity的用法，发现自己不太了解，想到当时的尴尬气氛，也为了以后方便查询，遂下定决心总结一番。 从头开始吧，ECMAScript共定义了三个乘性操作符：乘法、除法和求模。这些操作符与C、Java或者Perl中的相应操作符用途类型，只不过在操作数为非数值的情况下会执行自动的类型转换。如果参与乘法运算的某个操作数不是数值，后台会先使用Number()转型函数将其转换为数值。也就是说，空字符串将被当做0，布尔值true将被当做1。 一、乘法在处理特殊值的情况下，乘法操作符遵循下列特殊的规则： 如果操作数都是数值，执行常规的乘法运算，即两个正数或两个负数相乘的结果还是正数，而如果只有一个操作数有负号，那么结果就是负数。如果乘积超过了ECMAScript数值的表示范围，则返回Infinity或-Infinity； 由于内存的限制，ECMAScript并不能保存世界上所有的数值。ECMAScript能够表示的最小数值保存在 Number.MIN_VALUE中，在大多数浏览器中，这个值是5e-324;能够表示的最大数值保存在Number.MAX_VALUE中，在大多数浏览器中，这个值是1.7976931348623157e+308。 如果有一个操作数是NaN，则结果是NaN； 1console.log(8*NaN) //NaN 如果是Infinity与0相乘，则结果是NaN； 1console.log(Infinity*0) //NaN 如果是Infinity与非零数值相乘，则结果是Infinity或-Infinity，取决于操作数的符号； 12console.log(Infinity*3) //Infinityconsole.log(Infinity*-3) //-Infinity 如果是Infinity与Infinity相乘，则结果是Infinity； 1console.log(Infinity*Infinity) //Infinity 如果有一个操作数不是数值，则在后台调用Number()将其转换为数值，然后再应用上面的规则。 二、除法与乘法操作符类似，除法操作符对特殊的值也有特殊的处理规则。 如果操作数都是数值，执行常规的除法运算，即两个正数或两个负数相除的结果还是正数，而如果只有一个操作数有负号，那么结果就是负数。如果超过了ECMAScript数值的表示范围，则返回Infinity或-Infinity； 如果有一个操作数是NaN，则结果是NaN； 1console.log(NaN/4) //NaN 如果是Infinity被Infinity除，则结果是NaN； 1console.log(Infinity/Infinity) //NaN 如果是零被零除，则结果是NaN; 1console.log(0/0) //NaN 如果是非零的有限数被零除，则结果是Infinity或-Infinity，取决于操作数的符号； 12console.log(2/0) //Infinityconsole.log(-3/0) //-Infinity 如果是Infinity被任何非零数值除，则结果是Infinity或-Infinity，取决于操作数符号； 12console.log(Infinity/3) //Infinityconsole.log(Infinity/-5) //-Infinity 如果有一个操作数不是数值，则在后台调用Number()将其转换为数值，然后再应用上面的规则。 三、求模与另外两个乘性操作符类似，求模操作符会遵循下列特殊规则处理特殊的值。 如果操作数都是数值，执行常规的除法运算，返回除得的余数； 如果被除数是无穷大值而除数是有限大的数值，则结果是NaN； 1console.log(Infinity%8) //NaN 如果被除数是有限大的数值而除数是零，则结果是NaN； 1console.log(7%0) //NaN 如果是Infinity被Infinity除，则结果是NaN； 1console.log(Infinity%Infinity) //NaN 如果被除数是有限大的数值而除数是无穷大的数值，则结果是被除数； 1console.log(6%Infinity) //6 如果被除数是零，则结果是零； 1console.log(0%Infinity) //0 如果有一个操作数不是数值，则在后台调用Number()将其转换为数值，然后再应用上面的规则。 今天就先总结到这里吧，如果错误，欢迎指正。]]></content>
+      <categories>
+        <category>总结</category>
+      </categories>
+      <tags>
+        <tag>JS操作符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[vue学习填坑记之Vue.js devtools安装后无法启用]]></title>
+    <url>%2Fvue%E5%AD%A6%E4%B9%A0%E5%A1%AB%E5%9D%91%E8%AE%B0%E4%B9%8BVue-js-devtools%E5%AE%89%E8%A3%85%E5%90%8E%E6%97%A0%E6%B3%95%E5%90%AF%E7%94%A8.html</url>
+    <content type="text"><![CDATA[学习一门技术的时候，总会掉进各种各样的坑里。说实话，往外爬的过程是很考验人的耐力的。此时，如果有人打扰你，你应该告诉TA,社会主义救了你… 貌似跑题了，各位看官不要介意，本人思维太跳跃，下面步入正题。 今天在调试vue代码时，发现Chrome浏览器右上角的V图标竟然悄悄变灰了，作为一个Front End Engineer,怎么能容忍这种事情发生呢？ 为了日后方便查阅，特把本人的解决方法总结如下。 修改插件manifest文件找到Vue.js devtools的安装目录，可以在电脑中搜索插件的ID：nhdogjmejiglipccpnnnanhbledajbpd。我是win10系统，默认安装在C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Extensions\nhdogjmejiglipccpnnnanhbledajbpd处。 点进去找到manifest.json文件并打开，persistent修改为true。 上述修改后没有反应？机智的我继续往外爬。 插件使用环境通过查阅文档，发现有以下两种情况。 第一，页面使用的vue如果是生产环境，即压缩版本的话，devtools的选项是默认关闭的，所以可以使用非压缩版的。 第二，页面若是使用file://形式打开的话，需要到chrome扩展程序处勾上“允许访问文件网址”。或者使用服务器查看。 经过一番折腾，V终于又亮了，哈哈，不错吧。]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue插件</tag>
+      </tags>
+  </entry>
 </search>
