@@ -91,7 +91,7 @@
 <meta property="og:description" content="今天继续《CSS世界》这本书的学习之旅，这次主要是关于:first-letter的。  之前 first-letter 叫伪类选择器，写法是前面加一个冒号，如:first-letter。那时候的语义要更直白一些，选择第一个字符，然后设置一些样式。后来，伪类和伪元素被划分得更加明确和规范了， ::after、 ::before、::backdrop、 ::first-letter、 ::first-">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ozg6hqkcn.bkt.clouddn.com/zhengzhou.jpg">
-<meta property="og:updated_time" content="2018-04-16T14:36:19.373Z">
+<meta property="og:updated_time" content="2018-04-16T14:41:18.456Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS世界学习笔记（2）">
 <meta name="twitter:description" content="今天继续《CSS世界》这本书的学习之旅，这次主要是关于:first-letter的。  之前 first-letter 叫伪类选择器，写法是前面加一个冒号，如:first-letter。那时候的语义要更直白一些，选择第一个字符，然后设置一些样式。后来，伪类和伪元素被划分得更加明确和规范了， ::after、 ::before、::backdrop、 ::first-letter、 ::first-">
@@ -400,7 +400,7 @@ content: &#39;新闻： &#39;;
 p:first-letter {
 color: silver;
 }</code><br><code>&lt;p&gt;这是新闻的标题……&lt;/p&gt;</code><br>结果“新”变成了银色。包括 IE8 在内的浏览器都是这样的表现。</p>
-<p>####2． ::first-letter 伪元素可以生效的 CSS 属性<br>如果字符被选作了<em>::first-letter</em> 伪元素，并不是像<em>::before</em> 伪元素那样，几乎所有 CSS 都有效，只是一部分有效。<br>• 所有字体相关属性： <em>font、 font-style 、 font-variant 、 font-weight 、font-size、 line-height</em> 和 <em>font-family</em>。<br>• 所有背景相关属性： <em>background-color、 background-image、 backgroundposition、 background-repeat、 background-size</em> 和 <em>background-attachment</em>。<br>• 所有 <em>margin</em> 相关属性： <em>margin、 margin-top、 margin-right、 margin-bottom</em>和 <em>margin-left</em>。<br>• 所有 <em>padding</em> 相关属性： <em>padding、 padding-top、 padding-right、 paddingbottom</em> 和 <em>padding-left</em>。<br>• 所有 <em>border</em> 相关属性：缩写的 <em>border、 border-style、 border-color、border-width</em> 和普通书写的属性。<br>• <em>color</em> 属性。<br>• <em>text-decoration、 text-transform、 letter-spacing、 word-spacing</em>（合适情境下）、 <em>line-height、 float</em> 和 <em>vertical-align</em>（只有当 <em>float</em> 为 <em>none</em>的时候）等属性。<br>因此，如果妄图使用 <code>visibility:hidden</code> 或者 <code>display:none</code> 隐藏<em>::firstletter</em> 伪元素，还是省省吧。</p>
+<h4 id="2．-first-letter-伪元素可以生效的-CSS-属性"><a href="#2．-first-letter-伪元素可以生效的-CSS-属性" class="headerlink" title="2． ::first-letter 伪元素可以生效的 CSS 属性"></a>2． ::first-letter 伪元素可以生效的 CSS 属性</h4><p>如果字符被选作了<em>::first-letter</em> 伪元素，并不是像<em>::before</em> 伪元素那样，几乎所有 CSS 都有效，只是一部分有效。<br>• 所有字体相关属性： <em>font、 font-style 、 font-variant 、 font-weight 、font-size、 line-height</em> 和 <em>font-family</em>。<br>• 所有背景相关属性： <em>background-color、 background-image、 backgroundposition、 background-repeat、 background-size</em> 和 <em>background-attachment</em>。<br>• 所有 <em>margin</em> 相关属性： <em>margin、 margin-top、 margin-right、 margin-bottom</em>和 <em>margin-left</em>。<br>• 所有 <em>padding</em> 相关属性： <em>padding、 padding-top、 padding-right、 paddingbottom</em> 和 <em>padding-left</em>。<br>• 所有 <em>border</em> 相关属性：缩写的 <em>border、 border-style、 border-color、border-width</em> 和普通书写的属性。<br>• <em>color</em> 属性。<br>• <em>text-decoration、 text-transform、 letter-spacing、 word-spacing</em>（合适情境下）、 <em>line-height、 float</em> 和 <em>vertical-align</em>（只有当 <em>float</em> 为 <em>none</em>的时候）等属性。<br>因此，如果妄图使用 <code>visibility:hidden</code> 或者 <code>display:none</code> 隐藏<em>::firstletter</em> 伪元素，还是省省吧。</p>
 <h4 id="3．-first-letter-伪元素的一些有意思的特点"><a href="#3．-first-letter-伪元素的一些有意思的特点" class="headerlink" title="3． ::first-letter 伪元素的一些有意思的特点"></a>3． ::first-letter 伪元素的一些有意思的特点</h4><p>（1） 支持部分 <em>display</em> 属性值标签嵌套。 <em>::first-letter</em> 伪元素获取可以跨标签，也就是不仅能选择匿名内联盒子，还能透过层层标签进行选择，但是也有一些限制，并不是所有标签嵌套都是有用的。<br><em>display</em> 值如果是 <em>inline、 block、 table、 table-row、 table-caption、 tablecell、 list-item</em> 都是可以的，但是不能是 <em>inline-block</em> 和 <em>inlinetable</em>，否则<em>::first-letter</em> 伪元素会直接无效；而 <code>display:flex</code>则改变了规则，直接选择了下一行的字符内容。<br>例如：<br><code>p:first-letter {
 color: silver;
 }
@@ -412,7 +412,7 @@ color: red;
 p &gt; span {
 color: blue!important;
 }</code><br><code>&lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符看看会不会变红？ &lt;/p&gt;</code><br>请问“第”这个字符的颜色是什么？<br>基本上，超过 95%的前端人员会认为是 blue，因为大家都是从 CSS 选择器权重的角度去考虑的。这个答案本身没问题，但是却忽略了很重要的一点， <em>::first-letter</em> 伪元素其实是作为子元素存在的，或者说应当看出是子元素，于是就很好理解了。对于类似 <em>color</em> 这样的继承属性 ，子元素的 CSS设置一定比父元素的级别要高，哪怕父级使用 了重量级的<code>!important</code>，因为子元素会先继承，然后再应用自身设置。<br>因此，上面 CSS 和 HTML 代码的最终结果是，第一个字符“第”字的颜色是 red，红色！<br>这就是<em>::first-letter</em> 伪元素的另外一个重要特性—颜色等权重总是多了一层。</p>
-<p>####4． ::first-letter 实际应用举例<br>电商产品经常会有价格，价格前面一般都有一个<code>¥</code>符号，这个符号字体往往会比较特殊，字号也比较大，同时和文字的数值有几像素的距离。要实现这样的效果，通常的做法是在¥符号外面包一个 <code>span</code> 标签，命名一个类名，然后通过 CSS 控制。实际上，还有更简单巧妙的方法，就是使用本文介绍的<em>::first-letter</em> 伪元素。<br>CSS 示例代码如下：<br><code>.price:first-letter {
+<h4 id="4．-first-letter-实际应用举例"><a href="#4．-first-letter-实际应用举例" class="headerlink" title="4． ::first-letter 实际应用举例"></a>4． ::first-letter 实际应用举例</h4><p>电商产品经常会有价格，价格前面一般都有一个<code>¥</code>符号，这个符号字体往往会比较特殊，字号也比较大，同时和文字的数值有几像素的距离。要实现这样的效果，通常的做法是在¥符号外面包一个 <code>span</code> 标签，命名一个类名，然后通过 CSS 控制。实际上，还有更简单巧妙的方法，就是使用本文介绍的<em>::first-letter</em> 伪元素。<br>CSS 示例代码如下：<br><code>.price:first-letter {
 margin-right: 5px;
 font-size: xx-large;
 vertical-align: -2px;
@@ -645,7 +645,7 @@ vertical-align: -2px;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1．-first-letter-伪元素生效的前提"><span class="nav-number">1.</span> <span class="nav-text">1． ::first-letter 伪元素生效的前提</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3．-first-letter-伪元素的一些有意思的特点"><span class="nav-number">2.</span> <span class="nav-text">3． ::first-letter 伪元素的一些有意思的特点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1．-first-letter-伪元素生效的前提"><span class="nav-number">1.</span> <span class="nav-text">1． ::first-letter 伪元素生效的前提</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2．-first-letter-伪元素可以生效的-CSS-属性"><span class="nav-number">2.</span> <span class="nav-text">2． ::first-letter 伪元素可以生效的 CSS 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3．-first-letter-伪元素的一些有意思的特点"><span class="nav-number">3.</span> <span class="nav-text">3． ::first-letter 伪元素的一些有意思的特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4．-first-letter-实际应用举例"><span class="nav-number">4.</span> <span class="nav-text">4． ::first-letter 实际应用举例</span></a></li></ol></div>
             
 
           </div>
