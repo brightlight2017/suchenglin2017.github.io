@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[个人博客支持https]]></title>
     <url>%2F%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%94%AF%E6%8C%81https.html</url>
-    <content type="text"><![CDATA[GitHub Pages已支持https，今日下午闲来无事，特配置了一下。 （2012年摄于韩国） 遇到问题，可以通过GitHub帮助解决。下面是根据我的个人情况进行的修改。 1. 修改域名解析 按照GitHub帮助的介绍，把域名解析记录值修改为指定的IP。 2. 修改CNAME文件在GitHub网站相应仓库，把CNAME文件中的内容删除，然后提交。再次修改CNAME文件，把之前的内容写进去，提交。进到Settings页面，发现Enforce HTTPS 之前可以打勾了，之前会不允许打勾，并会给出原因。 最后，进入我的网站，看到出现了期待已久的小绿锁标志，成功！]]></content>
+    <content type="text"><![CDATA[GitHub Pages已支持https，今日下午闲来无事，特配置了一下。 （2012年 摄于韩国） 遇到问题，可以通过GitHub帮助解决。下面是根据我的个人情况进行的修改。 1. 修改域名解析 按照GitHub帮助的介绍，把域名解析记录值修改为指定的IP。 2. 修改CNAME文件在GitHub网站相应仓库，把CNAME文件中的内容删除，然后提交。再次修改CNAME文件，把之前的内容写进去，提交。进到Settings页面，发现Enforce HTTPS 之前可以打勾了，之前会不允许打勾，并会给出原因。 最后，进入我的网站，看到出现了期待已久的小绿锁标志，成功！]]></content>
       <categories>
         <category>总结</category>
       </categories>
